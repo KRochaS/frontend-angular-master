@@ -1,35 +1,34 @@
-<ion-content padding>
-<ion-grid>
-    <ion-row justify-content-center>
-        <ion-col size-md="6">
-            <form [formGroup]="form">
-
-                <br>
-                <p text-center> 
-                    <img src="assets/icon/icon.png" alt="Dachshop" width="150">
-                </p>
-                <br>
-                <ion-list lines="none" class="animated fadeIn">
-                    <ion-item>
-                        <ion-input type="text" maxlenght="20" placeholder="Usuário" formControlName="userName"
-                        autocomplete="username" (keyup.enter)="submit()">
-
-                        </ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-input type="hide ? 'password' : 'text'" maxlenght="20" placeholder="Senha" formControlName="password"
-                        autocomplete="password" (keyup.enter)="submit()">
-
-                        </ion-input>
-
-                        <ion-icon color="light" class="clickable" [name]="hide ? 'eye': 'eye-off'" (click)="toggleHide()">
-
-                        </ion-icon>
-                    </ion-item>
-                </ion-list>
-            </form>
-        </ion-col>
+ <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12">
+        <form [formGroup]="form">
+            <br>
+            <p class="ion-text-center animated fadeIn">
+                <img src="assets/icon/icon.png" alt="Dachshop" width="150">
+              </p>
+            <br>
+            <ion-list lines="none" class="animated fadeIn">
+              <ion-item>
+                <ion-input type="text" maxlength="20" placeholder="Usuário" formControlName="username"
+                  autocomplete="username" (keyup.enter)="submit()">
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input [type]="hide ? 'password' : 'text'" placeholder="Senha" formControlName="password"
+                  autocomplete="password" (keyup.enter)="submit()">
+                </ion-input>
+                <ion-icon color="light" class="clickable" [name]="hide ? 'eye' : 'eye-off'" (click)="toggleHide()">
+                </ion-icon>
+              </ion-item>
+            </ion-list>
+            <br>
+            <ion-button color="light" expand="full" size="large" class="animated fadeIn" [disabled]="!form.valid"
+              (click)="submit()">
+              Entrar
+            </ion-button>
+            <ion-button color="light" fill="clear" expand="full" class="animated fadeIn" (click)="resetPassword()">ESQUECI
+              MINHA SENHA
+            </ion-button>
+          </form>
+      </ion-col>
     </ion-row>
-</ion-grid>
-</ion-content>
