@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, ToastController, NavController } from '@ionic/angular';
+import { DataService } from 'src/app/data.service';
+import { UserModel } from 'src/app/models/user.model';
+import { SecurityUtil } from 'src/app/utils/security.util';
 
 @Component({
     selector: 'app-login',
@@ -15,6 +18,7 @@ export class LoginPage implements OnInit {
         private loadingCtrl: LoadingController,
         private toastCtrl: ToastController,
         private navCtrl: NavController,
+        private service: DataService
     ) {
         this.form = this.fb.group({
             username: ['', Validators.compose([
@@ -38,38 +42,36 @@ export class LoginPage implements OnInit {
         const loading = await this.loadingCtrl.create({ message: 'Autenticando...' });
         loading.present();
 
-        //   this
-        //     .service
-        //     .authenticate(this.form.value)
-        //     .subscribe(
-        //       (res: UserModel) => {
-        //         SecurityUtil.set(res);
-        //         loading.dismiss();
-        //         this.navCtrl.navigateRoot('/');
-        //       },
-        //       (err) => {
-        //         this.showError('Usuário ou senha inválidos');
-        //         loading.dismiss();
-        //       });
+          this.service.authenticate(this.form.value)
+            .subscribe(
+              (res: UserModel) => {
+                SecurityUtil.set(res);
+                loading.dismiss();
+                this.navCtrl.navigateRoot('/');
+              },
+              (err) => {
+                this.showError('Usuário ou senha inválidos');
+                loading.dismiss();
+              });
     }
 
-    // async resetPassword() {
-    //     if (this.form.controls['username'].invalid) {
-    //         this.showError("Usuário inválido");
-    //         return;
-    //     }
+    async resetPassword() {
+        if (this.form.controls['username'].invalid) {
+            this.showError("Usuário inválido");
+            return;
+        }
 
-    //     const loading = await this.loadingCtrl.create({ message: 'Restaurando sua senha...' });
-    //     loading.present();
-    // }
+        const loading = await this.loadingCtrl.create({ message: 'Restaurando sua senha...' });
+        loading.present();
+    }
 
     toggleHide() {
         this.hide = !this.hide;
     }
 
-    // async showError(message) {
-    //   const error = await this.toastCtrl.create({ message: message, showCloseButton: true, closeButtonText: 'Fechar', duration: 3000 });
-    //   error.present();
-    // }
+    async showError(message) {
+      const error = await this.toastCtrl.create({ message: message, duration: 3000 });
+      error.present();
+    }
 }
 
