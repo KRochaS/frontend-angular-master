@@ -1,20 +1,38 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { FramePage } from './pages/shared/frame/frame.page';
+import { AutorizedGuard } from './guards/autorized-guard';
+import { ManagerGuard } from './guards/manager.guard';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },
+
+    {
+        path: 'login',
+        loadChildren: () => import('./pages/account/login/login.module').then( m => m.LoginPageModule)
+      },
+//   {
+//     path: 'home',
+//    
+//   },
+//   {
+//     path: '',
+//     redirectTo: 'home',
+//     pathMatch: 'full'
+//   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    component: FramePage,
+    canActivate: [AutorizedGuard],
+    children: [
+        { path: '',  loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule) },
+        { path: 'orders', loadChildren: () => import('./pages/store/orders/orders.module').then( m => m.OrdersPageModule) },
+        { path: 'orders/:number', loadChildren: () => import('./pages/store/order-details/order-details.module').then( m => m.OrderDetailsPageModule) },
+        
+
+    ]
   },
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/account/login/login.module').then( m => m.LoginPageModule)
-  },
+  
+
 ];
 
 @NgModule({

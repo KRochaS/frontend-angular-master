@@ -10,14 +10,27 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FramePage } from './pages/shared/frame/frame.page';
+import { AutorizedGuard } from './guards/autorized-guard';
+import { ManagerGuard } from './guards/manager.guard';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [AppComponent, FramePage],
 	entryComponents: [],
-	imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,  FormsModule, ReactiveFormsModule],
+    imports: [
+        BrowserModule, 
+        IonicModule.forRoot(), 
+        AppRoutingModule, 
+        HttpClientModule,  
+        FormsModule, 
+        ReactiveFormsModule, 
+        ComponentsModule],
 	providers: [
 		StatusBar,
-		SplashScreen,
+        SplashScreen,
+        AutorizedGuard,
+        ManagerGuard,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],
 	exports: [FormsModule,

@@ -1,0 +1,22 @@
+<div class="ion-padding" *ngIf="!orders">
+    <app-loading></app-loading>
+</div>
+
+<div *ngIf="orders">
+    <ion-searchbar color="light" placeholder="Filtrar..."></ion-searchbar>
+
+    <ion-list>
+        <ion-item class="clickable" *ngFor="let order of orders" (click)="goToOrder(order.number)">
+            <h1 slot="start">
+                <app-order-status-badge [status]="order.status"></app-order-status-badge>
+            </h1>
+            <ion-label class="ion-text-wrap">
+                <strong> {{ order.number }} </strong>
+                <small> {{ order.date | date: 'dd/MM/yyyy HH:mm' }} </small>
+                {{ order.customer.name }}
+            </ion-label>
+
+            <h1 slot="end"> {{order.total/100 | currency: 'BRL'}} </h1>
+        </ion-item>
+    </ion-list>
+</div>
